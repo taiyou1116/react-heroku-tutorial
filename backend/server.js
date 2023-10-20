@@ -1,12 +1,13 @@
 
 const express = require("express");
+const path = require('path');
 
 const app = express();
 const port = 8000;
 
-app.get("/", (req, res) => {
-  res.send("Hello, world!");
-});
+// 追加: Reactのビルド成果物を提供する
+const rootPath = path.join(__dirname, '../');
+app.use(express.static(path.join(rootPath, 'frontend/build')));
 
 app.get("/api", (req, res) => {
     res.json([
@@ -36,6 +37,11 @@ app.get("/api", (req, res) => {
       },
     ]);
   });
+
+// 追加: それ以外のGETリクエストでindex.htmlを返す
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
+});
   
 
 const actualPort = process.env.PORT || port;
