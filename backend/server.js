@@ -38,6 +38,7 @@ app.get("/api", (req, res) => {
   });
   
 
-app.listen(port, () => {
-  console.log(`port ${port} でサーバー起動中`);
+const actualPort = process.env.PORT || port;
+app.listen(actualPort, () => {
+  console.log(`port ${actualPort} でサーバー起動中`);
 });
